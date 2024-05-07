@@ -8,6 +8,7 @@ RUN PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir -r requirements.lock
 
 COPY src .
 
+EXPOSE 5050
 # not a production server but this is just a demo
 CMD python app.py
 
