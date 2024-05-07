@@ -28,7 +28,7 @@ test:
     - name: sc-registry.fredhutch.org/review-app-testing:test
       alias: review-app-testing
   script:
-    - sleep 15 && curl -sI  http://review-app-testing:5000  |head -1|grep -q "200 OK"
+    - sleep 15 && curl -sI  http://review-app-testing:5050  |head -1|grep -q "200 OK"
 
 deploy:
   stage: deploy
