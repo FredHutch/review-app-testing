@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  review-app-testing:
+    image: sc-registry.fredhutch.org/review-app-testing:latest
+    networks:
+      - proxy
+    deploy:
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.review-app-testing.rule=Host(`review-app-testing.fredhutch.org`)"
+        - "traefik.http.routers.review-app-testing-secured.rule=Host(`review-app-testing.fredhutch.org`)"
+        - "traefik.http.routers.review-app-testing.entrypoints=web,web-secured"
+        - "traefik.http.services.review-app-testing.loadbalancer.server.port=5050" # it seems you always need to give traefik a port so it 'notices' the service
+        - "traefik.http.routers.review-app-testing.tls=true"
+
+networks:
+  proxy:
+    external: true
