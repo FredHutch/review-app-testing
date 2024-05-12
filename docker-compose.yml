@@ -9,11 +9,12 @@ services:
         condition: on-failure
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.rule=Host(`${SLUG}${DOT}review-app-testing.fredhutch.org`)"
-        - "traefik.http.routers.${SLUG}${DASH}review-app-testing-secured.rule=Host(`${SLUG}${DOT}review-app-testing.fredhutch.org`)"
-        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.entrypoints=web,web-secured"
+        # - "traefik.http.routers.${SLUG}${DASH}review-app-testing.rule=Host(`${SLUG}${DOT}review-app-testing.fredhutch.org`)"
+        # - "traefik.http.routers.${SLUG}${DASH}review-app-testing-secured.rule=Host(`${SLUG}${DOT}review-app-testing.fredhutch.org`)"
+        # - "traefik.http.routers.${SLUG}${DASH}review-app-testing.entrypoints=web,web-secured"
+        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.entrypoints=web"
         - "traefik.http.services.${SLUG}${DASH}review-app-testing.loadbalancer.server.port=5050" # it seems you always need to give traefik a port so it 'notices' the service
-        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.tls=true"
+        # - "traefik.http.routers.${SLUG}${DASH}review-app-testing.tls=true"
 
 networks:
   proxy:
