@@ -16,7 +16,7 @@ services:
         #
         # the following line should not occur in main:
         # It gets automatically uncommented in review branches:
-        - #UNCOMMENTTHIStraefik.http.routers.${SLUG}${DASH}review-app-testing.rule=PathPrefix(`/${SLUG}`)
+        - #UNCOMMENTTHIStraefik.http.routers.${SLUG}${DASH}review-app-testing.rule=PathPrefix(`/review-app-testing-${SLUG}`)
         - "traefik.http.services.${SLUG}${DASH}review-app-testing.loadbalancer.server.port=5050" # it seems you always need to give traefik a port so it 'notices' the service
         # - "traefik.http.routers.${SLUG}${DASH}review-app-testing.tls=true"
 
