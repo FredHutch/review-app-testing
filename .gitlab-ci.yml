@@ -62,6 +62,7 @@ deploy_review_site:
     DASH: "-"
     DOT: "."
     SLUG: $CI_COMMIT_REF_SLUG
+    IMG_TAG: $SLUG
   script:
     - echo SLUG is $SLUG
     - docker tag sc-registry.fredhutch.org/review-app-testing:test sc-registry.fredhutch.org/review-app-testing:$CI_COMMIT_REF_SLUG
