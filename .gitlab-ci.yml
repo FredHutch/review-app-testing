@@ -30,11 +30,17 @@ test:
   script:
     - sleep 15 && curl -sI  http://review-app-testing:5050  |head -1|grep -q "200 OK"
 
+ 
+# can the following two jobs be combined and made DRYer?
 deploy:
   stage: deploy
   only:
     refs:
         - main
+  # variables:  # is this necessary?
+  #   DASH: ""
+  #   DOT: ""
+  #   SLUG: ""
   script:
     - docker tag sc-registry.fredhutch.org/review-app-testing:test sc-registry.fredhutch.org/review-app-testing:latest
     - docker push sc-registry.fredhutch.org/review-app-testing:latest
@@ -42,3 +48,22 @@ deploy:
     - echo $SC_SWARM_CICD_SSH_KEY | base64 -d > ./sc_swarm_cicd_ssh_key
     - chmod 0400 ./sc_swarm_cicd_ssh_key
     - python3 build_helper.py docker-compose.yml | ssh -i ./sc_swarm_cicd_ssh_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@sc-swarm-mgr.fhcrc.org docker stack deploy --with-registry-auth -c - review-app-testing
+
+deploy_review_site:
+  stage: deploy
+  only:
+    - branches
+  except:
+    - main
+  variables:
+    DASH: "-"
+    DOT: "."
+    SLUG: $CI_COMMIT_REF_SLUG
+  script:
+    - echo SLUG is $SLUG
+    - docker tag sc-registry.fredhutch.org/review-app-testing:test sc-registry.fredhutch.org/review-app-testing:$CI_COMMIT_REF_SLUG
+    - docker push sc-registry.fredhutch.org/review-app-testing:$CI_COMMIT_REF_SLUG
+    - sleep 15
+    - echo $SC_SWARM_CICD_SSH_KEY | base64 -d > ./sc_swarm_cicd_ssh_key
+    - chmod 0400 ./sc_swarm_cicd_ssh_key
+    - python3 build_helper.py docker-compose.yml | ssh -i ./sc_swarm_cicd_ssh_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@sc-swarm-mgr.fhcrc.org docker stack deploy --with-registry-auth -c - review-app-testing-${SLUG}
