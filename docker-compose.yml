@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   review-app-testing:
-    image: sc-registry.fredhutch.org/review-app-testing:${SLUG:-latest}
+    image: sc-registry.fredhutch.org/review-app-testing:${IMG_TAG}
     networks:
       - proxy
     deploy:
