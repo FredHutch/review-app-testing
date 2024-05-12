@@ -9,8 +9,8 @@ services:
         condition: on-failure
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.rule=Host(`review-app-testing.fredhutch.org`)"
-        - "traefik.http.routers.${SLUG}${DASH}review-app-testing-secured.rule=Host(`review-app-testing.fredhutch.org`)"
+        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.rule=Host(`${HOST}`)"
+        - "traefik.http.routers.${SLUG}${DASH}review-app-testing-secured.rule=Host(`${HOST}`)"
         - "traefik.http.routers.${SLUG}${DASH}review-app-testing.entrypoints=web,web-secured"
         # the following line should not occur in main:
         # It gets automatically uncommented in review branches:

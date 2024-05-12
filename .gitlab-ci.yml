@@ -39,6 +39,7 @@ deploy:
         - main
   variables:  # is this necessary?
     IMG_TAG: "latest"
+    HOST: "review-app-testing.fredhutch.org"
     # are these necessary?
   #   DASH: ""
   #   DOT: ""
@@ -59,6 +60,7 @@ deploy_review_site:
   except:
     - main
   variables:
+    HOST: "testing-review-apps.fredhutch.org"
     DASH: "-"
     DOT: "."
     SLUG: $CI_COMMIT_REF_SLUG
