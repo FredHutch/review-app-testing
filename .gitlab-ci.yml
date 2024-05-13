@@ -39,7 +39,7 @@ deploy:
         - main
   variables:  # is this necessary?
     IMG_TAG: "latest"
-    HOST: "review-app-testing.fredhutch.org"
+    HOST: "review-app-testing.fredhutch.org" # production URL
     # are these necessary?
   #   DASH: ""
   #   DOT: ""
@@ -51,8 +51,9 @@ deploy:
     - sleep 15
     - echo $SC_SWARM_CICD_SSH_KEY | base64 -d > ./sc_swarm_cicd_ssh_key
     - chmod 0400 ./sc_swarm_cicd_ssh_key
-    - envsubst < docker-compose.yml > docker-compose-final.yml
+    - cat docker-compose.yml | envsubst > docker-compose-final.yml
     - python3 build_helper.py docker-compose-final.yml | ssh -i ./sc_swarm_cicd_ssh_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@sc-swarm-mgr.fhcrc.org docker stack deploy --with-registry-auth -c - review-app-testing
+    - rm docker-compose-final.yml
 
 deploy_review_site:
   stage: deploy
@@ -61,7 +62,7 @@ deploy_review_site:
   except:
     - main
   variables:
-    HOST: "testing-review-apps.fredhutch.org"
+    HOST: "testing-review-apps.fredhutch.org" # root URL for review apps
     DASH: "-"
     DOT: "."
     SLUG: $CI_COMMIT_REF_SLUG
@@ -74,6 +75,7 @@ deploy_review_site:
     - sleep 15
     - echo $SC_SWARM_CICD_SSH_KEY | base64 -d > ./sc_swarm_cicd_ssh_key
     - chmod 0400 ./sc_swarm_cicd_ssh_key
-    - cat docker-compose.yml | sed 's/#UNCOMMENTTHIS//' | envsubst > docker-compose-final.yml
+    - cat docker-compose.yml | envsubst > docker-compose-final.yml
     - cat docker-compose-final.yml
     - python3 build_helper.py docker-compose-final.yml | ssh -i ./sc_swarm_cicd_ssh_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@sc-swarm-mgr.fhcrc.org docker stack deploy --with-registry-auth -c - review-app-testing-${SLUG}
+    - rm docker-compose-final.yml
