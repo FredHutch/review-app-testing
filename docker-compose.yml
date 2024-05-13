@@ -9,7 +9,7 @@ services:
         condition: on-failure
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.rule=Host(`${HOST}`) && PathPrefix(`/review-app-testing-${SLUG}`)"
+        - "traefik.http.routers.${SLUG}${DASH}review-app-testing.rule=Host(`${HOST}`)${PREFIX}"
         - "traefik.http.routers.${SLUG}${DASH}review-app-testing-secured.rule=Host(`${HOST}`) && PathPrefix(`/review-app-testing-${SLUG}`)"
         - "traefik.http.routers.${SLUG}${DASH}review-app-testing.entrypoints=web,web-secured"
         - "traefik.http.services.${SLUG}${DASH}review-app-testing.loadbalancer.server.port=5050" # it seems you always need to give traefik a port so it 'notices' the service

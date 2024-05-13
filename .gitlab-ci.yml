@@ -44,6 +44,7 @@ deploy:
   #   DASH: ""
   #   DOT: ""
   #   SLUG: ""
+  #   PREFIX: ""
   script:
     - docker tag sc-registry.fredhutch.org/review-app-testing:test sc-registry.fredhutch.org/review-app-testing:latest
     - docker push sc-registry.fredhutch.org/review-app-testing:latest
@@ -65,6 +66,8 @@ deploy_review_site:
     DOT: "."
     SLUG: $CI_COMMIT_REF_SLUG
     IMG_TAG: $SLUG
+    # PREFIX: " && PathPrefix(`/review-app-testing-${SLUG}`)"
+    PREFIX: " && PathPrefix(`/{SLUG}`)"
   script:
     - echo SLUG is $SLUG
     - docker tag sc-registry.fredhutch.org/review-app-testing:test sc-registry.fredhutch.org/review-app-testing:$CI_COMMIT_REF_SLUG
