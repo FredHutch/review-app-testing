@@ -2,5 +2,6 @@
 
 Describe your project here.
 
-https://testing-review-apps.fredhutch.org/review-app-testing-review0
+https://testing-review-apps.fredhutch.org/review0
 
+https://testing-review-apps.fredhutch.org/review0/cromwell-server
